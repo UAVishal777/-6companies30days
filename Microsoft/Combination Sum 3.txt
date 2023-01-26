@@ -1,0 +1,33 @@
+class Solution {
+    private:
+    void helper(int i,int n,int k,int sumTillNow,vector<int>&subset,vector<vector<int>>&ans){
+        if(k==0){
+            if(sumTillNow==n){
+                ans.push_back(subset);
+            }
+            return;
+        }
+        if(sumTillNow>n){
+            return;
+        }
+        if(i>9){
+            return;
+        }
+
+        sumTillNow+=i;
+        subset.push_back(i);
+        helper(i+1,n,k-1,sumTillNow,subset,ans);
+        sumTillNow-=i;
+        subset.pop_back();
+        helper(i+1,n,k,sumTillNow,subset,ans);
+    }
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int>subset;
+        vector<vector<int>>ans;
+        int sumTillNow=0;
+        helper(1,n,k,sumTillNow,subset,ans);
+        return ans;
+        
+    }
+};
