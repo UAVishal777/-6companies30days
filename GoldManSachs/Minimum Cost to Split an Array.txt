@@ -1,0 +1,39 @@
+class Solution {
+public:
+int dp[1001];
+int solve(vector<int>&nums,int &k,int idx,vector<vector<int>>&split,int n){
+    if(idx>=n){
+        return 0;
+    }
+    if(dp[idx]!=-1){
+        return dp[idx];
+    }
+    int score=INT_MAX;
+    for(int i=idx;i<n;i++){
+        int curr=k+split[idx][i]+solve(nums,k,i+1,split,n);
+        score=min(score,curr);
+    }
+    return dp[idx]=score;
+}
+    int minCost(vector<int>& nums, int k) {
+        memset(dp,-1,sizeof(dp));
+        int n=nums.size();
+        vector<vector<int>>split(n,vector<int>(n,0));
+        for(int i=0;i<n;i++){
+            map<int,int>mp;
+            int trim=0;
+            for(int j=i;j<n;j++){
+                mp[nums[j]]++;
+                if(mp[nums[j]]==2){
+                    trim+=2;
+                }
+                else if(mp[nums[j]]>2){
+                    trim++;
+                }
+                split[i][j]=trim;
+            }
+        }
+        return solve(nums,k,0,split,n);
+        
+    }
+};
